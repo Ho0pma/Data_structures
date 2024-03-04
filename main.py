@@ -35,152 +35,286 @@
 #     cities.pop(index)
 #     print(result)
 
+# -------------------------------------------------------------------------------------------------------------------- #
 # пример односвязного списка
 # динамическая структура данных, которая состоит из узлов, элемент которых хранит в себе
 # ссылку на следующий
 
 # ЧТО НУЖНО ДОДЕЛАТЬ
+# сделать переменную tail
 # Метод __str__ не будет работать корректно, если список пустой. Нужно добавить проверку на случай пустого списка.
 # В методе __getitem__ необходимо добавить проверку на выход за границы списка.
 # В методе insert необходимо добавить проверку на выход за границы списка.
 # В методе __delitem__ также нужна проверка на выход за границы списка.
-class LinkedList:
-    head = None  # изначально список пустой
-    length = 0   # длинна тоже
+# нет изменение элемента в списке
+# class LinkedList:
+#     head = None  # изначально список пустой
+#     length = 0   # длинна тоже
+#
+#     # класс для создания элементов (узлов)
+#     class Node:
+#         element = None   # то, что мы храним
+#         next_node = None # ссылка на следующую ноду (узел)
+#
+#         # функция инициализации для создания узлов
+#         def __init__(self, element, next_node=None):
+#             # element - то, что мы сохраняем
+#             # next_node по умолчанию None, тк в конце не может быть следующего элемента
+#
+#             # тут присваиваем значения, которые мы получили на входе
+#             self.element = element
+#             self.next_node = next_node
+#
+#
+#     # добавление в конец списка (сейчас O(n))
+#     def append(self, element):
+#         # если первого элемента нет - создаем его путем создания эк класса Node:
+#         if not self.head:
+#             self.head = self.Node(element)
+#             self.length += 1                # увеличиваем тк создан новый элемент
+#             return element
+#
+#         # если какой-то элемент уже есть в списке:
+#         # нужно пройтись по всем элементам
+#         node = self.head            # начальная нода
+#         while node.next_node:        # пока существует следующая нода
+#             node = node.next_node   # увеличиваем ноду, пока она есть
+#
+#         # когда дойдем до конца, делаем следующую ноду - новой
+#         node.next_node = self.Node(element)
+#         self.length += 1
+#         return element
+#
+#     def __str__(self):
+#         # если вызвать print(эк) - вызовется эта функция
+#         # тут будем сохранять все узлы в формате строки
+#         line = '['
+#         node = self.head
+#         while node.next_node:
+#             line += f'{str(node.element)}, '
+#             node = node.next_node
+#
+#         line += f'{str(node.element)}]'
+#
+#         return line
+#
+#     # доступ к элементу O(n)
+#     def __getitem__(self, item):
+#         # будет вызываться если вызвать print(lst[index])
+#         node = self.head
+#         index = 0
+#         while index < item:         # пока не дошли до нужно значения
+#             node = node.next_node
+#             index += 1
+#
+#         return node.element
+#
+#     def insert(self, key, value):
+#         node = self.head
+#         prev_node = self.head
+#         index = 0
+#
+#         # случай если мы вставляем в начало списка О(1)
+#         if key == 0:
+#             old_head = self.head                              # делаем текущую ноду - старой
+#             self.head = self.Node(value, next_node=old_head)  # и задаем, что новая голова - новая нода (ту, которую вставляем)
+#             self.length += 1
+#             return value
+#
+#         # вставка в середину (любое другое место кроме первого) O(n)
+#         while index < key:          # находим нужный индекс
+#             prev_node = node        # п
+#             node = node.next_node
+#             index += 1
+#
+#         prev_node.next_node = self.Node(value, next_node=node)
+#         self.length += 1
+#         return value
+#
+#     #  Удаление элемента. Нет обработки ошибки, если такого элемента нет.
+#     def __delitem__(self, key):
+#         # при вызове del lst[index] зайдет сюда
+#
+#         node = self.head
+#         prev_node = self.head
+#         index = 0
+#
+#         # удаление первого элемента О(1)
+#         if key == 0:
+#             old_head = self.head
+#             self.head = self.head.next_node
+#             self.length -= 1
+#
+#             del old_head
+#             # return element  # чтобы вывести, что удаляем нужно перед этим сохранять удаляемый элемент (не реализовано)
+#             # del игнорирует возвращаемое значение
+#
+#         # удаление любого кроме первого O(n)
+#         while index < key:
+#             prev_node = node
+#             node = node.next_node
+#             index += 1
+#
+#         prev_node.next_node = node.next_node
+#         self.length -= 1
+#
+#         del node
+#
+#
+# lst = LinkedList()          # создаем объект
+# lst.append(4)               # добавляем элементы
+# lst.append(2)
+#
+# lst.insert(1, 3) # вставляем по индексу
+# del lst[2]                  # удаляем по индексу: __delitem__
+#
+#
+# print(lst)                  # выводим сформированный список: __str__
+# print(lst[0])               # выводим значение из листа по индексу: __getitem__
+# print(lst.length)           # выводим физический размер
 
-    # класс для создания элементов (узлов)
+# -------------------------------------------------------------------------------------------------------------------- #
+# двусвязный список
+
+class DblList:
+    head = None
+    tail = None
+    length = 0
+
     class Node:
-        element = None   # то, что мы храним
-        next_node = None # ссылка на следующую ноду (узел)
+        prev_node = None
+        next_node = None
+        element = None
 
-        # функция инициализации для создания узлов
-        def __init__(self, element, next_node=None):
-            # element - то, что мы сохраняем
-            # next_node по умолчанию None, тк в конце не может быть следующего элемента
-
-            # тут присваиваем значения, которые мы получили на входе
-            self.element = element
+        def __init__(self, element, prev_node=None, next_node=None):
+            self.prev_node = prev_node
             self.next_node = next_node
+            self.element = element
 
-
-    # добавление в конец списка (сейчас O(n))
     def append(self, element):
-        # если первого элемента нет - создаем его путем создания эк класса Node:
+        self.length += 1
+
         if not self.head:
             self.head = self.Node(element)
-            self.length += 1                # увеличиваем тк создан новый элемент
             return element
 
-        # если какой-то элемент уже есть в списке:
-        # нужно пройтись по всем элементам
-        node = self.head            # начальная нода
-        while node.next_node:        # пока существует следующая нода
-            node = node.next_node   # увеличиваем ноду, пока она есть
+        elif not self.tail:
+            self.tail = self.Node(element, prev_node=self.head, next_node=None)
+            self.head.next_node = self.tail
+            return element
+        else:
+            node = self.Node(element, prev_node=self.tail, next_node=None)
+            self.tail.next_node = node
+            self.tail = node
+            return element
 
-        # когда дойдем до конца, делаем следующую ноду - новой
-        node.next_node = self.Node(element)
-        self.length += 1
+    def __iter__(self):
+        node = self.head
+
+        while node:
+            yield node.element
+            node = node.next_node
+
+    def _del(self, index, reverse=False):
+        if reverse:
+            i = self.length - 1
+            node = self.tail
+
+            while i != index:
+                node = node.prev_node
+                i -= 1
+        else:
+            i = 0
+            node = self.head
+
+            while i < index:
+                node = node.next_node
+                i += 1
+
+        element = node.element
+        node.prev_node.next_node, node.next_node.prev_node = node.next_node, node.prev_node
+        del node
         return element
 
-    def __str__(self):
-        # если вызвать print(эк) - вызовется эта функция
-        # тут будем сохранять все узлы в формате строки
-        line = '['
-        node = self.head
-        while node.next_node:
-            line += f'{str(node.element)}, '
-            node = node.next_node
+    def __delitem__(self, index):
+        if index < 0 or index >= self.length:
+            raise IndexError('Index out of range')
 
-        line += f'{str(node.element)}]'
-
-        return line
-
-    # доступ к элементу O(n)
-    def __getitem__(self, item):
-        # будет вызываться если вызвать print(lst[index])
-        node = self.head
-        index = 0
-        while index < item:         # пока не дошли до нужно значения
-            node = node.next_node
-            index += 1
-
-        return node.element
-
-    def insert(self, key, value):
-        node = self.head
-        prev_node = self.head
-        index = 0
-
-        # случай если мы вставляем в начало списка О(1)
-        if key == 0:
-            old_head = self.head                              # делаем текущую ноду - старой
-            self.head = self.Node(value, next_node=old_head)  # и задаем, что новая голова - новая нода (ту, которую вставляем)
-            self.length += 1
-            return value
-
-        # вставка в середину (любое другое место кроме первого) O(n)
-        while index < key:          # находим нужный индекс
-            prev_node = node        # п
-            node = node.next_node
-            index += 1
-
-        prev_node.next_node = self.Node(value, next_node=node)
-        self.length += 1
-        return value
-
-    #  Удаление элемента. Нет обработки ошибки, если такого элемента нет.
-    def __delitem__(self, key):
-        # при вызове del lst[index] зайдет сюда
-
-        node = self.head
-        prev_node = self.head
-        index = 0
-
-        # удаление первого элемента О(1)
-        if key == 0:
+        elif index == 0:
             old_head = self.head
             self.head = self.head.next_node
-            self.length -= 1
-
             del old_head
-            # return element  # чтобы вывести, что удаляем нужно перед этим сохранять удаляемый элемент (не реализовано)
-            # del игнорирует возвращаемое значение
 
-        # удаление любого кроме первого O(n)
-        while index < key:
-            prev_node = node
-            node = node.next_node
-            index += 1
+        elif index == self.length - 1:
+            old_tail = self.tail
+            self.tail = self.tail.prev_node
+            self.tail.next_node = None
+            del old_tail
 
-        prev_node.next_node = node.next_node
+        elif index <= self.length // 2:
+            self._del(index, reverse=False)
+
+        else:
+            self._del(index, reverse=True)
+
         self.length -= 1
 
-        del node
+    def _insrt(self, index, value, reverse=False):
+        if reverse:
+            i = self.length - 1
+            node = self.tail
 
+            while i != index:
+                node = node.prev_node
+                i -= 1
+        else:
+            i = 0
+            node = self.head
 
-lst = LinkedList()          # создаем объект
-lst.append(4)               # добавляем элементы
-lst.append(2)
+            while i < index:
+                node = node.next_node
+                i += 1
 
-lst.insert(1, 3) # вставляем по индексу
-del lst[2]                  # удаляем по индексу: __delitem__
+        new_node = self.Node(value, node.prev_node, node)
+        node.prev_node.next_node, node.prev_node = new_node, new_node
+        return value
 
+    def insert(self, index, value):
+        if index < 0 or index >= self.length:
+            raise IndexError('Index out of range')
 
-print(lst)                  # выводим сформированный список: __str__
-print(lst[0])               # выводим значение из листа по индексу: __getitem__
-print(lst.length)           # выводим физический размер
+        elif index == 0:
+            new_node = self.Node(value, None, self.head)
+            new_node.next_node, self.head = self.head, new_node
 
+        elif index == self.length - 1:
+            new_node = self.Node(value, self.tail.prev_node, self.tail)
+            new_node.next_node, self.tail.prev_node.next_node = self.tail, new_node
 
+        elif index <= self.length // 2:
+            self._insrt(index, value, reverse=False)
 
+        else:
+            self._insrt(index, value, reverse=True)
 
+        self.length += 1
 
+if __name__ == '__main__':
+    dblList = DblList()
 
+    dblList.append(1)
+    dblList.append(2)
+    dblList.append(3)
+    dblList.append(4)
+    dblList.append(5)
 
+    dblList.insert(4, 999)
 
+    # del dblList[0]
+    # del dblList[5]
+    print(dblList.length)
 
-
-
-
+    print([i for i in dblList])
 
 
 
