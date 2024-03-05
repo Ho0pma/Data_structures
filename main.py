@@ -176,155 +176,240 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 # двусвязный список
 
-class DblList:
-    head = None
-    tail = None
-    length = 0
+# class DblList:
+#     head = None
+#     tail = None
+#     length = 0
+#
+#     class Node:
+#         prev_node = None
+#         next_node = None
+#         element = None
+#
+#         def __init__(self, element, prev_node=None, next_node=None):
+#             self.prev_node = prev_node
+#             self.next_node = next_node
+#             self.element = element
+#
+#     def append(self, element):
+#         self.length += 1
+#
+#         if not self.head:
+#             self.head = self.Node(element)
+#             return element
+#
+#         elif not self.tail:
+#             self.tail = self.Node(element, prev_node=self.head, next_node=None)
+#             self.head.next_node = self.tail
+#             return element
+#         else:
+#             node = self.Node(element, prev_node=self.tail, next_node=None)
+#             self.tail.next_node = node
+#             self.tail = node
+#             return element
+#
+#     def __iter__(self):
+#         node = self.head
+#
+#         while node:
+#             yield node.element
+#             node = node.next_node
+#
+#     def _del(self, index, reverse=False):
+#         if reverse:
+#             i = self.length - 1
+#             node = self.tail
+#
+#             while i != index:
+#                 node = node.prev_node
+#                 i -= 1
+#         else:
+#             i = 0
+#             node = self.head
+#
+#             while i < index:
+#                 node = node.next_node
+#                 i += 1
+#
+#         element = node.element
+#         node.prev_node.next_node, node.next_node.prev_node = node.next_node, node.prev_node
+#         del node
+#         return element
+#
+#     def __delitem__(self, index):
+#         if index < 0 or index >= self.length:
+#             raise IndexError('Index out of range')
+#
+#         elif index == 0:
+#             old_head = self.head
+#             self.head = self.head.next_node
+#             del old_head
+#
+#         elif index == self.length - 1:
+#             old_tail = self.tail
+#             self.tail = self.tail.prev_node
+#             self.tail.next_node = None
+#             del old_tail
+#
+#         elif index <= self.length // 2:
+#             self._del(index, reverse=False)
+#
+#         else:
+#             self._del(index, reverse=True)
+#
+#         self.length -= 1
+#
+#     def _insrt(self, index, value, reverse=False):
+#         if reverse:
+#             i = self.length - 1
+#             node = self.tail
+#
+#             while i != index:
+#                 node = node.prev_node
+#                 i -= 1
+#         else:
+#             i = 0
+#             node = self.head
+#
+#             while i < index:
+#                 node = node.next_node
+#                 i += 1
+#
+#         new_node = self.Node(value, node.prev_node, node)
+#         node.prev_node.next_node, node.prev_node = new_node, new_node
+#         return value
+#
+#     def insert(self, index, value):
+#         if index < 0 or index >= self.length:
+#             raise IndexError('Index out of range')
+#
+#         elif index == 0:
+#             new_node = self.Node(value, None, self.head)
+#             new_node.next_node, self.head = self.head, new_node
+#
+#         elif index == self.length - 1:
+#             new_node = self.Node(value, self.tail.prev_node, self.tail)
+#             new_node.next_node, self.tail.prev_node.next_node = self.tail, new_node
+#
+#         elif index <= self.length // 2:
+#             self._insrt(index, value, reverse=False)
+#
+#         else:
+#             self._insrt(index, value, reverse=True)
+#
+#         self.length += 1
+#
+# if __name__ == '__main__':
+#     dblList = DblList()
+#
+#     dblList.append(1)
+#     dblList.append(2)
+#     dblList.append(3)
+#     dblList.append(4)
+#     dblList.append(5)
+#
+#     dblList.insert(4, 999)
+#
+#     # del dblList[0]
+#     # del dblList[5]
+#     print(dblList.length)
+#
+#     print([i for i in dblList])
 
-    class Node:
-        prev_node = None
-        next_node = None
-        element = None
+# -------------------------------------------------------------------------------------------------------------------- #
+# collections.deque
 
-        def __init__(self, element, prev_node=None, next_node=None):
-            self.prev_node = prev_node
-            self.next_node = next_node
-            self.element = element
+from collections import deque
 
-    def append(self, element):
-        self.length += 1
+# создание пустой очереди
+# dq = deque()
+# print(dq) # выведет: deque([])
 
-        if not self.head:
-            self.head = self.Node(element)
-            return element
+# задать итерируемый объект + установить длину очереди в 5, если ее нет - очередь бесконечна
+# внутрь deque можно поместить любой итерируемый объект
+# dq = deque([1, 2, 3, 4, 5], maxlen=5)
+#
+# # что будет если добавить в такую очередь еще элемент?
+# dq.append(6)
+#
+# # все элементы были сдвинуты
+# print(dq) # выведет: deque([2, 3, 4, 5, 6], maxlen=5)
+#
+# # можно также вставить слева
+# dq.appendleft(7)
+#
+# print(dq) # выведет: deque([7, 2, 3, 4, 5], maxlen=5)
+#
+# # удалить граничные элементы
+# value1 = dq.pop()
+# value2 = dq.popleft()
+#
+# print(dq) # выведет: deque([2, 3, 4], maxlen=5)
+# print(value1, value2) # выведет: 5 7
 
-        elif not self.tail:
-            self.tail = self.Node(element, prev_node=self.head, next_node=None)
-            self.head.next_node = self.tail
-            return element
-        else:
-            node = self.Node(element, prev_node=self.tail, next_node=None)
-            self.tail.next_node = node
-            self.tail = node
-            return element
+# как отловить ошибку при удалении элемента из пустой очереди?
+# dq = deque()
+# try:
+#     value = dq.pop()
+#     print(value)
+# except Exception as e:
+#     print(e)
+#
+# # output: pop from an empty deque
 
-    def __iter__(self):
-        node = self.head
+# добавление нескольких значений в конец очереди
+# dq = deque([1, 2, 3, 4, 5])
+# dq.extend([6, 7, 8])
+# dq.extendleft([0, -1, -2]) # добавляется слева направо
+#
+# print(dq) # output: deque([-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8])
 
-        while node:
-            yield node.element
-            node = node.next_node
+# # вставка в произвольную позицию в списке
+# dq = deque([1, 2, 3, 4, 5])
+# dq.insert(1, 999)
+#
+# # добавить на место предпоследнего
+# dq.insert(-1, 555)
+#
+# # чтобы добавить в конец очередь - указать несуществующее положительное число
+# dq.insert(9999999, 4444)
+#
+# # в начало
+# dq.insert(-9999999, 777)
+#
+# print(dq) # output: deque([777, 1, 999, 2, 3, 4, 555, 5, 4444])
 
-    def _del(self, index, reverse=False):
-        if reverse:
-            i = self.length - 1
-            node = self.tail
+# # удалить элемент по значению (первый попавшийся). Если такого значения нет - ValuerError
+# dq = deque([1, 2, 3, 4, 3, 5])
+# dq.remove(3)
+#
+# print(dq) # output: deque([1, 2, 4, 3, 5]) # первая тройка съебалась
 
-            while i != index:
-                node = node.prev_node
-                i -= 1
-        else:
-            i = 0
-            node = self.head
+# очистка списка
+# dq = deque([1, 2, 3, 4, 3, 5])
+# dq.clear()
+#
+# print(dq) # output: deque([])
 
-            while i < index:
-                node = node.next_node
-                i += 1
+# # создать копию
+# dq = deque([1, 2, 3, 4, 3, 5])
+# dq2 = dq.copy()
+#
+# print(dq2) # output: deque([1, 2, 3, 4, 3, 5])
 
-        element = node.element
-        node.prev_node.next_node, node.next_node.prev_node = node.next_node, node.prev_node
-        del node
-        return element
+# -------------------------------------------------------------------------------------------------------------------- #
+# реализация FIFO и LIFO на deque
 
-    def __delitem__(self, index):
-        if index < 0 or index >= self.length:
-            raise IndexError('Index out of range')
+# FIFO или наоборот
+dq = deque([1, 2, 3, 4, 5])
+dq.appendleft(10) # добавление слева
+dq.pop() #  удаление справа
 
-        elif index == 0:
-            old_head = self.head
-            self.head = self.head.next_node
-            del old_head
+print(dq) # output: deque([10, 1, 2, 3, 4])
 
-        elif index == self.length - 1:
-            old_tail = self.tail
-            self.tail = self.tail.prev_node
-            self.tail.next_node = None
-            del old_tail
+# LIFO или наоборот
+dq = deque([1, 2, 3, 4, 5])
+dq.append(10)
+dq.pop()
 
-        elif index <= self.length // 2:
-            self._del(index, reverse=False)
-
-        else:
-            self._del(index, reverse=True)
-
-        self.length -= 1
-
-    def _insrt(self, index, value, reverse=False):
-        if reverse:
-            i = self.length - 1
-            node = self.tail
-
-            while i != index:
-                node = node.prev_node
-                i -= 1
-        else:
-            i = 0
-            node = self.head
-
-            while i < index:
-                node = node.next_node
-                i += 1
-
-        new_node = self.Node(value, node.prev_node, node)
-        node.prev_node.next_node, node.prev_node = new_node, new_node
-        return value
-
-    def insert(self, index, value):
-        if index < 0 or index >= self.length:
-            raise IndexError('Index out of range')
-
-        elif index == 0:
-            new_node = self.Node(value, None, self.head)
-            new_node.next_node, self.head = self.head, new_node
-
-        elif index == self.length - 1:
-            new_node = self.Node(value, self.tail.prev_node, self.tail)
-            new_node.next_node, self.tail.prev_node.next_node = self.tail, new_node
-
-        elif index <= self.length // 2:
-            self._insrt(index, value, reverse=False)
-
-        else:
-            self._insrt(index, value, reverse=True)
-
-        self.length += 1
-
-if __name__ == '__main__':
-    dblList = DblList()
-
-    dblList.append(1)
-    dblList.append(2)
-    dblList.append(3)
-    dblList.append(4)
-    dblList.append(5)
-
-    dblList.insert(4, 999)
-
-    # del dblList[0]
-    # del dblList[5]
-    print(dblList.length)
-
-    print([i for i in dblList])
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(dq) # output: deque([1, 2, 3, 4, 5])
