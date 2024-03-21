@@ -706,3 +706,80 @@ from collections import deque
 # print(res)
 
 # -------------------------------------------------------------------------------------------------------------------- #
+# Бинарные деревья на классах
+
+class TreeNode:
+    def __init__(self, value=None, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+
+# root = TreeNode(value='A')
+# root.left = TreeNode(value='B')
+# root.right = TreeNode(value='C')
+# root.left.left = TreeNode(value='D')
+# root.left.right = TreeNode(value='E')
+# root.right.left = TreeNode(value='F')
+# root.right.right = TreeNode(value='G')
+
+root = TreeNode(value='5')
+root.left = TreeNode(value='3')
+root.right = TreeNode(value='7')
+root.left.left = TreeNode(value='2')
+root.right.left = TreeNode(value='6')
+root.right.right = TreeNode(value='8')
+
+def bfs(root: TreeNode):
+    queue = deque()
+    queue += [root]
+
+    while queue:
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            if node:
+                print(node.value, end=' ')
+                queue += [node.left]
+                queue += [node.right]
+
+
+def dfs(node: TreeNode):
+    if node is None:
+        return
+
+    dfs(node.left)
+    print(node.value, end=' ') # будет выводить 2 3 5 6 7 8 (возрастание или убыванию)
+    dfs(node.right)
+
+
+bfs(root)
+print()
+dfs(root)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
