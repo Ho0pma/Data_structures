@@ -1,3 +1,21 @@
+# Статический массив, пример вставки
+def insert_into_array(static_array, element, index):
+    if index < 0 or index >= len(static_array):
+        print("Неверный индекс")
+        return
+
+    # Сдвиг всех элементов вправо, начиная с конца массива и до индекса вставки
+    for i in range(len(static_array) - 1, index, -1):
+        static_array[i] = static_array[i - 1]
+
+    # Вставка нового элемента на указанный индекс
+    static_array[index] = element
+
+static_array = [1, 2, 3, 4, 5, 0, 0, 0, 0, 0]
+insert_into_array(static_array, 10, 2)
+print(static_array)
+
+# -------------------------------------------------------------------------------------------------------------------- #
 # # Динамический массив
 # marks = [1, 2, 3, 4, 5]
 #
@@ -319,7 +337,7 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 # collections.deque
 
-from collections import deque
+# from collections import deque
 
 # создание пустой очереди
 # dq = deque()
@@ -708,78 +726,272 @@ from collections import deque
 # -------------------------------------------------------------------------------------------------------------------- #
 # Бинарные деревья на классах
 
-class TreeNode:
-    def __init__(self, value=None, left=None, right=None):
-        self.value = value
-        self.left = left
-        self.right = right
+# class TreeNode:
+#     def __init__(self, value=None, left=None, right=None):
+#         self.value = value
+#         self.left = left
+#         self.right = right
+#
+#
+# # root = TreeNode(value='A')
+# # root.left = TreeNode(value='B')
+# # root.right = TreeNode(value='C')
+# # root.left.left = TreeNode(value='D')
+# # root.left.right = TreeNode(value='E')
+# # root.right.left = TreeNode(value='F')
+# # root.right.right = TreeNode(value='G')
+#
+# root = TreeNode(value='5')
+# root.left = TreeNode(value='3')
+# root.right = TreeNode(value='7')
+# root.left.left = TreeNode(value='2')
+# root.right.left = TreeNode(value='6')
+# root.right.right = TreeNode(value='8')
+#
+# def bfs(root: TreeNode):
+#     queue = deque()
+#     queue += [root]
+#
+#     while queue:
+#         for _ in range(len(queue)):
+#             node = queue.popleft()
+#             if node:
+#                 print(node.value, end=' ')
+#                 queue += [node.left]
+#                 queue += [node.right]
+#
+#
+# def dfs(node: TreeNode):
+#     if node is None:
+#         return
+#
+#     dfs(node.left)
+#     print(node.value, end=' ') # будет выводить 2 3 5 6 7 8 (возрастание или убыванию)
+#     dfs(node.right)
+#
+#
+# bfs(root)
+# print()
+# dfs(root)
 
 
-# root = TreeNode(value='A')
-# root.left = TreeNode(value='B')
-# root.right = TreeNode(value='C')
-# root.left.left = TreeNode(value='D')
-# root.left.right = TreeNode(value='E')
-# root.right.left = TreeNode(value='F')
-# root.right.right = TreeNode(value='G')
+# -------------------------------------------------------------------------------------------------------------------- #
+# пример бинарного дерева
 
-root = TreeNode(value='5')
-root.left = TreeNode(value='3')
-root.right = TreeNode(value='7')
-root.left.left = TreeNode(value='2')
-root.right.left = TreeNode(value='6')
-root.right.right = TreeNode(value='8')
+# class Node:
+#     def __init__(self, data):
+#         self.data = data
+#         self.left = self.right = None
+#
+#
+# class Tree:
+#     def __init__(self):
+#         self.root = None
+#
+#     def __find(self, node, parent, value):
+#         # node - текущая вершина, value - передаваемое значение
+#         if node is None:
+#             return None, parent, False
+#
+#         # если полученное значение есть в дереве
+#         if value == node.data:
+#             return node, parent, True
+#
+#         # если меньше добавляем слева
+#         if value < node.data:
+#             if node.left:
+#                 return self.__find(node.left, node, value)
+#
+#         # если больше добавляем справа
+#         if value > node.data:
+#             if node.right:
+#                 return self.__find(node.right, node, value)
+#
+#         return node, parent, False
+#
+#     def append(self, obj: Node):
+#         if self.root is None:
+#             self.root = obj
+#             return obj
+#
+#         node, parent, fl_find = self.__find(self.root, None, obj.data)
+#
+#         if not fl_find and node:
+#             if obj.data < node.data:
+#                 node.left = obj
+#             else:
+#                 node.right = obj
+#
+#         return obj
+#
+#     def dfs(self, node):
+#         if node is None:
+#             return
+#
+#         self.dfs(node.left)
+#         print(node.data)
+#         self.dfs(node.right)
+#
+#     def bfs(self, root):
+#         queue = deque()
+#         queue += [root]
+#
+#         while queue:
+#             for _ in range(len(queue)):
+#                 node = queue.popleft()
+#                 if node:
+#                     print(node.data, end=' ')
+#                     queue += [node.left]
+#                     queue += [node.right]
+#             print()
+#
+#     def __del_leaf(self, node, parent):
+#         if parent.left == node:
+#             parent.left = None
+#         elif parent.right == node:
+#             parent.right = None
+#
+#     def __del_one_child(self, node, parent):
+#         if parent.left == node:
+#             if node.left is None:
+#                 parent.left = node.right
+#             elif node.right is None:
+#                 parent.left = node.left
+#
+#         elif parent.right == node:
+#             if node.left is None:
+#                 parent.right = node.right
+#             elif node.right is None:
+#                 parent.right = node.left
+#
+#     def __find_min(self, node, parent):
+#         if node.left:
+#             return self.__find_min(node.left, node)
+#
+#         return node, parent
+#
+#     def del_node(self, key):
+#         node, parent, fl_find = self.__find(self.root, None, key)
+#
+#         if not fl_find:
+#             return None
+#
+#         if node.left is None and node.right is None:
+#             self.__del_leaf(node, parent)
+#
+#         elif node.left is None or node.right is None:
+#             self.__del_one_child(node, parent)
+#
+#         else:
+#             sr, pr = self.__find_min(node.right, node)
+#             node.data = sr.data
+#             self.__del_one_child(sr, pr)
+#
+# lst = [10, 5, 11]
+# # lst = [10, 5, 7, 16, 13, 2, 20] # для демонстрации удаления с двумя потомками
+# # lst = [20, 5, 24, 2, 16, 11, 18] # для демонстрации удаления с двумя потомками + потомками потомков))
+#
+# t = Tree()
+# for x in lst:
+#     t.append(Node(x))
+#
+# t.del_node(5)
+# t.bfs(t.root)
 
-def bfs(root: TreeNode):
-    queue = deque()
-    queue += [root]
+# -------------------------------------------------------------------------------------------------------------------- #
+# бинарное дерево, которые выводит алгоритмом в ширину, с нижнего уровня, слева направо
+#
+# from collections import deque
+#
+# class Node:
+#     def __init__(self, data):
+#         self.data = data
+#         self.left = self.right = None
+#
+#
+# class Tree:
+#     def __init__(self):
+#         self.root = None
+#
+#     def __find(self, node, parent, value):
+#         if node is None:
+#             return None, parent, False
+#
+#         if value == node.data:
+#             return node, parent, True
+#
+#         if value < node.data:
+#             if node.left:
+#                 return self.__find(node.left, node, value)
+#
+#         if value > node.data:
+#             if node.right:
+#                 return self.__find(node.right, node, value)
+#
+#         return node, parent, False
+#
+#     def append(self, obj):
+#         if self.root is None:
+#             self.root = obj
+#             return obj
+#
+#         s, p, fl_find = self.__find(self.root, None, obj.data)
+#
+#         if not fl_find and s:
+#             if obj.data < s.data:
+#                 s.left = obj
+#             else:
+#                 s.right = obj
+#
+#         return obj
+#
+#     def show_wide_tree(self, node):
+#         if node is None:
+#             return
+#
+#         queue = deque([node])
+#         result = []
+#         while queue:
+#             level_nodes = []
+#             for _ in range(len(queue)):
+#                 current = queue.popleft()
+#                 level_nodes.append(current.data)
+#                 if current.left:
+#                     queue.append(current.left)
+#                 if current.right:
+#                     queue.append(current.right)
+#             result = level_nodes + result
+#         print(" ".join(str(x) for x in result))
+#
+#
+# # Пример использования:
+# tree = Tree()
+# tree.append(Node(5))
+# tree.append(Node(3))
+# tree.append(Node(7))
+# tree.append(Node(2))
+# tree.append(Node(4))
+# tree.append(Node(6))
+# tree.append(Node(8))
+# tree.show_wide_tree(tree.root)
 
-    while queue:
-        for _ in range(len(queue)):
-            node = queue.popleft()
-            if node:
-                print(node.value, end=' ')
-                queue += [node.left]
-                queue += [node.right]
+# -------------------------------------------------------------------------------------------------------------------- #
+# Хеш-таблицы
 
-
-def dfs(node: TreeNode):
-    if node is None:
-        return
-
-    dfs(node.left)
-    print(node.value, end=' ') # будет выводить 2 3 5 6 7 8 (возрастание или убыванию)
-    dfs(node.right)
-
-
-bfs(root)
-print()
-dfs(root)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# # хеш таблица в виде словаря:
+# d = {'one': 1, 'two': 2, 'three': 3}
+#
+# # в качестве ключей могут выступать только хэшируемые объекты те только неизменяемые
+#
+# # новый элемент
+# d['four'] = 4
+#
+# # вывод конкретного
+# print(d['one'])
+#
+# # хэш-таблица на основе множества:
+# s = {'one', 'two', 'three'}
+#
+# # можно сказать то же самое, что и словарь, только хранятся только
+# # ключи, без значений
+# # Ограничения такие же, только хэшируемые объекты
